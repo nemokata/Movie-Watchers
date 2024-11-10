@@ -1,0 +1,150 @@
+/* General styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* Light mode styling */
+body.light-mode {
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* Taskbar styling */
+#taskbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1c1c1c;
+    padding: 15px;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#taskbar .logo img {
+    width: 60px;
+}
+
+#taskbar .nav-links a {
+    color: #e0e0e0;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+#taskbar .nav-links a:hover {
+    color: #4CAF50;
+}
+
+/* Dark Mode Toggle */
+#darkModeToggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #e0e0e0;
+}
+
+#darkModeToggle input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-left: 10px;
+}
+
+/* Section styling */
+.section {
+    padding: 20px;
+    display: none;
+}
+
+.section h2 {
+    color: #4CAF50;
+}
+
+/* Search bar styling */
+#searchArea {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#searchInput {
+    width: 300px;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #333;
+}
+
+#searchInput::placeholder {
+    color: #888;
+}
+
+#searchInput:focus {
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+}
+
+/* Movie Poster Styling */
+.movie-poster {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.movie-poster:hover {
+    transform: scale(1.05);
+}
+
+/* Modal Styling with Transition */
+#detailsContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: #1c1c1c;
+    color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+    width: 500px;
+    z-index: 2000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#detailsContainer.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+#detailsContainer img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+#detailsContainer button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#detailsContainer button:hover {
+    background-color: #45a049;
+}
+
+/* Hidden class for sections */
+.hidden { display: none; }
