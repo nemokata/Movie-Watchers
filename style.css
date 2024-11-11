@@ -1,7 +1,7 @@
 /* General styling */
 body {
     font-family: 'Roboto', sans-serif;
-    background: #cf8e8e;
+    background: #2c2c2c;
     color: #e0e0e0;
     margin: 0;
     padding: 0;
@@ -56,13 +56,14 @@ body.light-mode {
     flex-direction: column;
 }
 
-/* Search bar container styling */
+/* Centered search bar styling */
 #searchArea {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     width: 100%;
+    position: relative;
 }
 
 /* Search input styling */
@@ -89,7 +90,9 @@ body.light-mode {
 /* Suggestions dropdown styling */
 .suggestions-container {
     position: absolute;
-    top: 38%; /* Adjust based on search bar position */
+    top: 100%; /* Aligns dropdown directly below the search input */
+    left: 50%;
+    transform: translateX(-50%);
     width: 300px;
     max-height: 200px;
     overflow-y: auto;
@@ -113,21 +116,19 @@ body.light-mode {
     color: #fff;
 }
 
-/* Section styling */
-.section {
+/* Movie Posters Container */
+#movieContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 20px;
-    display: none;
+    gap: 20px;
 }
 
-.section h2 {
-    color: #4CAF50;
-}
-
-/* Movie poster styling */
+/* Movie Poster Styling */
 .movie-poster {
     width: 150px;
     height: auto;
-    margin: 10px;
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -137,7 +138,7 @@ body.light-mode {
     transform: scale(1.05);
 }
 
-/* Modal styling with transition */
+/* Modal Styling with Transition */
 #detailsContainer {
     position: fixed;
     top: 50%;

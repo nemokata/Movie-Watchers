@@ -5,14 +5,23 @@ const apiKey = "c3c3f653";
 function startScreen() {
     sessionStorage.setItem('omdbApiKey', apiKey);
 
-    const topContainer = document.createElement("div");
-    topContainer.id = "topContainer";
-    document.body.appendChild(topContainer);
+    // Check if 'topContainer' already exists before creating it
+    let topContainer = document.getElementById("topContainer");
+    if (!topContainer) {
+        topContainer = document.createElement("div");
+        topContainer.id = "topContainer";
+        document.body.appendChild(topContainer);
+    }
 
-    const resultContainer = document.createElement("div");
-    resultContainer.id = "resultContainer";
-    document.body.appendChild(resultContainer);
+    // Check if 'resultContainer' already exists before creating it
+    let resultContainer = document.getElementById("resultContainer");
+    if (!resultContainer) {
+        resultContainer = document.createElement("div");
+        resultContainer.id = "resultContainer";
+        document.body.appendChild(resultContainer);
+    }
 
+    // Adding logo and search bar to 'topContainer'
     const img = document.createElement("img");
     img.src = "image/Logo.png";
     img.style.width = "10%";
@@ -58,6 +67,10 @@ function startScreen() {
     loadTopMovies();
     loadTopSeries();
 }
+
+// Call startScreen only once on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", startScreen);
+
 
 // Toggle dark mode function
 function toggleDarkMode() {
@@ -219,5 +232,3 @@ function showSection(sectionId) {
     document.getElementById(sectionId).classList.remove('hidden'); // Show the selected section
 }
 
-// Automatically start the screen when the script loads
-document.addEventListener("DOMContentLoaded", startScreen);
