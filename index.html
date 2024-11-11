@@ -16,11 +16,12 @@
             <img src="image/Logo.png" alt="Logo" class="logo">
         </div>
         <nav class="nav-links">
-            <a href="javascript:void(0)" onclick="showSection('top-movies')">Top Movies</a>
-            <a href="javascript:void(0)" onclick="showSection('top-series')">Top Series</a>
-            <a href="javascript:void(0)" onclick="showSection('contact')">Contact</a>
+            <a href="Top_Movies.html">Top Movies</a>
+            <a href="Top_Series.html">Top Series</a>
+            <a href="Contact.html">Contact</a>
         </nav>
     </div>
+    
     
     <!-- Dark mode toggle switch -->
     <div id="darkModeToggle">
@@ -35,17 +36,19 @@
     <div id="resultContainer"></div>
 
     <!-- Top Movies Podium Layout -->
-    <div id="top-movies" class="section hidden">
-        <h2>Top Movies</h2>
-        <div class="podium-container" id="topMoviesPodium"></div>
-        <div class="list-container" id="topMoviesList"></div>
-    </div>
-
-    <!-- Top Series Podium Layout -->
-    <div id="top-series" class="section hidden">
-        <h2>Top Series</h2>
-        <div class="podium-container" id="topSeriesPodium"></div>
-        <div class="list-container" id="topSeriesList"></div>
+    <div id="content">
+        <!-- Add containers for the top movies -->
+        <div id="topMoviesSection">
+            <h2>Top Movies</h2>
+            <div id="topMoviesPodium"></div>
+            <div id="topMoviesList"></div>
+        </div>
+        <!-- Add containers for the top series similarly if needed -->
+        <div id="topSeriesSection">
+            <h2>Top Series</h2>
+            <div id="topSeriesPodium"></div>
+            <div id="topSeriesList"></div>
+        </div>
     </div>
 
     <!-- Contact Section -->

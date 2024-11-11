@@ -34,7 +34,7 @@ function startScreen() {
 
     const searchInput = document.createElement("input");
     searchInput.type = "text";
-    searchInput.placeholder = "Search for movies...";
+    searchInput.placeholder = "Search for movies or series...";
     searchInput.id = "searchInput";
     searchInput.oninput = () => searchOMDb(searchInput.value, true);
     searchArea.appendChild(searchInput);
@@ -70,7 +70,6 @@ function startScreen() {
 
 // Call startScreen only once on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", startScreen);
-
 
 // Toggle dark mode function
 function toggleDarkMode() {
@@ -158,77 +157,125 @@ function toggleMovieDetails(movieData) {
 }
 
 // Function to load top-rated movies and display in podium and list format
-function loadTopMovies() {
-    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=top&type=movie`)
-        .then(response => response.json())
-        .then(data => {
-            const topMoviesPodium = document.getElementById("topMoviesPodium");
-            const topMoviesList = document.getElementById("topMoviesList");
-            topMoviesPodium.innerHTML = "";
-            topMoviesList.innerHTML = "";
+async function loadTopMovies() {
+    const apiKey = sessionStorage.getItem('omdbApiKey'); // Use stored API key
+    const topMoviesPodium = document.getElementById("topMoviesPodium");
+    const topMoviesList = document.getElementById("topMoviesList");
+    topMoviesPodium.innerHTML = "";
+    topMoviesList.innerHTML = "";
 
-            // Display top 3 movies on the podium
-            const podiumMovies = data.Search.slice(0, 3);
-            podiumMovies.forEach((movie, index) => {
-                const podiumItem = document.createElement("div");
-                podiumItem.className = `podium-place podium-place-${index + 1}`;
-                podiumItem.innerHTML = `
-                    <img src="${movie.Poster}" alt="${movie.Title}">
-                    <p>${index + 1} - ${movie.Title}</p>
-                `;
-                topMoviesPodium.appendChild(podiumItem);
-            });
+    let movies = [];
+    const searchQueries = "abcdefghijklmnopqrstuvwxyz".split(""); // A-Z searches
+    const maxPages = 2; // Limit the pages to avoid too many requests
 
-            // Display remaining movies as a list
-            const listMovies = data.Search.slice(3, 10);  // Top 4 to 10
-            listMovies.forEach((movie, index) => {
-                const listItem = document.createElement("div");
-                listItem.className = "list-item";
-                listItem.innerHTML = `<span>#${index + 4}</span> ${movie.Title}`;
-                topMoviesList.appendChild(listItem);
-            });
-        });
+    // Fetch movies for each search query
+    for (const char of searchQueries) {
+        for (let page = 1; page <= maxPages; page++) {
+            const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${char}&type=movie&page=${page}`);
+            const data = await response.json();
+
+            if (data.Search) {
+                movies = movies.concat(data.Search);
+            }
+        }
+    }
+
+    // Fetch detailed data and filter by IMDb rating
+    const detailedMovies = [];
+    for (const movie of movies) {
+        const movieResponse = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${movie.imdbID}`);
+        const movieDetails = await movieResponse.json();
+
+        if (movieDetails.imdbRating && parseFloat(movieDetails.imdbRating) >= 8) {
+            detailedMovies.push(movieDetails);
+        }
+    }
+
+    // Sort movies by IMDb rating in descending order
+    detailedMovies.sort((a, b) => parseFloat(b.imdbRating) - parseFloat(a.imdbRating));
+
+    // Display top 3 movies on the podium
+    const podiumMovies = detailedMovies.slice(0, 3);
+    podiumMovies.forEach((movie, index) => {
+        const podiumItem = document.createElement("div");
+        podiumItem.className = `podium-place podium-place-${index + 1}`;
+        podiumItem.innerHTML = `
+            <img src="${movie.Poster}" alt="${movie.Title}">
+            <p>${index + 1} - ${movie.Title} (${movie.imdbRating})</p>
+        `;
+        topMoviesPodium.appendChild(podiumItem);
+    });
+
+    // Display remaining movies as a list
+    const listMovies = detailedMovies.slice(3, 10); // Top 4 to 10
+    listMovies.forEach((movie, index) => {
+        const listItem = document.createElement("div");
+        listItem.className = "list-item";
+        listItem.innerHTML = `<span>#${index + 4}</span> ${movie.Title} (${movie.imdbRating})`;
+        topMoviesList.appendChild(listItem);
+    });
 }
+
+
 
 // Function to load top-rated series and display in podium and list format
-function loadTopSeries() {
-    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=chart=toptv`)
-        .then(response => response.json())
-        .then(data => {
-            const topSeriesPodium = document.getElementById("topSeriesPodium");
-            const topSeriesList = document.getElementById("topSeriesList");
-            topSeriesPodium.innerHTML = "";
-            topSeriesList.innerHTML = "";
+async function loadTopSeries() {
+    const topSeriesPodium = document.getElementById("topSeriesPodium");
+    const topSeriesList = document.getElementById("topSeriesList");
+    topSeriesPodium.innerHTML = "";
+    topSeriesList.innerHTML = "";
 
-            // Display top 3 series on the podium
-            const podiumSeries = data.Search.slice(0, 3);
-            podiumSeries.forEach((series, index) => {
-                const podiumItem = document.createElement("div");
-                podiumItem.className = `podium-place podium-place-${index + 1}`;
-                podiumItem.innerHTML = `
-                    <img src="${series.Poster}" alt="${series.Title}">
-                    <p>${index + 1} - ${series.Title}</p>
-                `;
-                topSeriesPodium.appendChild(podiumItem);
-            });
+    let series = [];
+    let page = 1;
+    const maxPages = 5; // Adjust as needed; OMDb returns 10 results per page
 
-            // Display remaining series as a list
-            const listSeries = data.Search.slice(3, 10);  // Top 4 to 10
-            listSeries.forEach((series, index) => {
-                const listItem = document.createElement("div");
-                listItem.className = "list-item";
-                listItem.innerHTML = `<span>#${index + 4}</span> ${series.Title}`;
-                topSeriesList.appendChild(listItem);
-            });
-        });
-}
+    while (page <= maxPages) {
+        const response = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=series&page=${page}`);
+        const data = await response.json();
 
-// Function to display the selected section and hide others
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.classList.add('hidden'); // Hide all sections
+        if (data.Search) {
+            series = series.concat(data.Search);
+        } else {
+            break;
+        }
+        page++;
+    }
+
+    const highRatedSeries = [];
+    for (const item of series) {
+        const seriesDetailsResponse = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${item.imdbID}`);
+        const seriesData = await seriesDetailsResponse.json();
+
+        if (seriesData.imdbRating && parseFloat(seriesData.imdbRating) >= 8) {
+            highRatedSeries.push(seriesData);
+        }
+
+        if (highRatedSeries.length >= 10) break; // Stop once we have the top 10 series
+    }
+
+    // Display top 3 series on the podium
+    const podiumSeries = highRatedSeries.slice(0, 3);
+    podiumSeries.forEach((series, index) => {
+        const podiumItem = document.createElement("div");
+        podiumItem.className = `podium-place podium-place-${index + 1}`;
+        podiumItem.innerHTML = `
+            <img src="${series.Poster}" alt="${series.Title}">
+            <p>${index + 1} - ${series.Title} (${series.imdbRating})</p>
+        `;
+        topSeriesPodium.appendChild(podiumItem);
     });
-    document.getElementById(sectionId).classList.remove('hidden'); // Show the selected section
+
+    // Display remaining series as a list
+    const listSeries = highRatedSeries.slice(3, 10);
+    listSeries.forEach((series, index) => {
+        const listItem = document.createElement("div");
+        listItem.className = "list-item";
+        listItem.innerHTML = `<span>#${index + 4}</span> ${series.Title} (${series.imdbRating})`;
+        topSeriesList.appendChild(listItem);
+    });
 }
+
+document.getElementById('topMoviesButton').addEventListener('click', () => {
+    loadTopMovies();
+});
 
