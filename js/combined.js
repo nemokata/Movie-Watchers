@@ -1,7 +1,9 @@
+// Hardcoded API key
+const apiKey = "c3c3f653";
+
 // Function to initiate screen and set up session
-function startScreen(apiKey) {
+function startScreen() {
     sessionStorage.setItem('omdbApiKey', apiKey);
-    document.getElementById("container").style.display = "none";
 
     const topContainer = document.createElement("div");
     topContainer.id = "topContainer";
@@ -144,7 +146,6 @@ function toggleMovieDetails(movieData) {
 
 // Function to load top-rated movies and display in podium and list format
 function loadTopMovies() {
-    const apiKey = sessionStorage.getItem('omdbApiKey');
     fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=top&type=movie`)
         .then(response => response.json())
         .then(data => {
@@ -178,7 +179,6 @@ function loadTopMovies() {
 
 // Function to load top-rated series and display in podium and list format
 function loadTopSeries() {
-    const apiKey = sessionStorage.getItem('omdbApiKey');
     fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=chart=toptv`)
         .then(response => response.json())
         .then(data => {
@@ -217,11 +217,7 @@ function showSection(sectionId) {
         section.classList.add('hidden'); // Hide all sections
     });
     document.getElementById(sectionId).classList.remove('hidden'); // Show the selected section
-
-    // Optional: Load content if needed for Top Movies or Top Series
-    if (sectionId === 'top-movies') {
-        loadTopMovies();
-    } else if (sectionId === 'top-series') {
-        loadTopSeries();
-    }
 }
+
+// Automatically start the screen when the script loads
+document.addEventListener("DOMContentLoaded", startScreen);

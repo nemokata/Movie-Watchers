@@ -6,7 +6,7 @@
     <title>Stream HD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="js/combined.js"></script>
+    <script src="js/combined.js" defer></script>
 </head>
 <body class="dark-mode">
 
@@ -16,12 +16,11 @@
         <input type="checkbox" id="toggleSwitch" onclick="toggleDarkMode()">
     </div>
 
-    <div id="container">
-        <div class="input-container">
-            <input type="text" id="apiKeyInput" class="input-field" placeholder="Enter API Key">
-            <button class="register-button" onclick="startScreen(document.getElementById('apiKeyInput').value)">Continue</button>
-        </div>
-    </div>
+    <!-- Top container where search bar and logo will appear -->
+    <div id="topContainer"></div>
+
+    <!-- Result container for displaying search results -->
+    <div id="resultContainer"></div>
 
     <!-- Top Movies Podium Layout -->
     <div id="top-movies" class="section hidden">
@@ -57,12 +56,12 @@
         </form>
     </div>
     
+    <!-- Taskbar for navigation -->
     <div id="taskbar">
         <div class="logo">
             <img src="image/Logo.png" alt="Logo" class="logo">
         </div>
         <nav class="nav-links">
-            <a href="javascript:void(0)" onclick="showSection('container')">Search</a>
             <a href="javascript:void(0)" onclick="showSection('top-movies')">Top Movies</a>
             <a href="javascript:void(0)" onclick="showSection('top-series')">Top Series</a>
             <a href="javascript:void(0)" onclick="showSection('contact')">Contact</a>
