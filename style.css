@@ -43,34 +43,28 @@ body.light-mode {
 
 /* Dark Mode Toggle */
 #darkModeToggle {
-    position: absolute;
-    top: 15px;
-    right: 15px;
     color: #e0e0e0;
 }
 
-#darkModeToggle input[type="checkbox"] {
-    transform: scale(1.2);
-    margin-left: 10px;
+/* Center the top container with search */
+#topContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Center vertically in the viewport */
+    flex-direction: column;
 }
 
-/* Section styling */
-.section {
-    padding: 20px;
-    display: none;
-}
-
-.section h2 {
-    color: #4CAF50;
-}
-
-/* Search bar styling */
+/* Centered search bar styling */
 #searchArea {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
+    width: 100%; /* Allow centering in container */
 }
 
+/* Search input styling */
 #searchInput {
     width: 300px;
     padding: 10px;
@@ -88,6 +82,42 @@ body.light-mode {
 
 #searchInput:focus {
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+}
+
+/* Suggestions dropdown styling */
+.suggestions-container {
+    position: absolute;
+    top: 110%; /* Adjust based on search bar position */
+    width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    padding: 10px;
+    color: #e0e0e0;
+    cursor: pointer;
+    border-bottom: 1px solid #444;
+}
+
+.suggestion-item:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+/* Section styling */
+.section {
+    padding: 20px;
+    display: none;
+}
+
+.section h2 {
+    color: #4CAF50;
 }
 
 /* Movie Poster Styling */
@@ -147,4 +177,6 @@ body.light-mode {
 }
 
 /* Hidden class for sections */
-.hidden { display: none; }
+.hidden { 
+    display: none; 
+}

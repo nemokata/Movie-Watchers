@@ -28,15 +28,30 @@ function startScreen(apiKey) {
     searchInput.oninput = () => searchOMDb(searchInput.value, true);
     searchArea.appendChild(searchInput);
 
-    const searchButton = document.createElement("button");
-    searchButton.innerHTML = "Search";
-    searchButton.onclick = () => searchOMDb(searchInput.value);
-    searchArea.appendChild(searchButton);
-
     const suggestionsContainer = document.createElement("div");
     suggestionsContainer.id = "suggestionsContainer";
     suggestionsContainer.className = "suggestions-container";
     searchArea.appendChild(suggestionsContainer);
+
+    // Handle Enter key for search
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === 'Enter') {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchOMDb(query);
+            }
+        }
+    });
+
+    // Handle input for auto-suggestions
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim();
+        if (query) {
+            searchOMDb(query, true);
+        } else {
+            displaySuggestions([]); // Clear suggestions if input is empty
+        }
+    });
 
     loadTopMovies();
     loadTopSeries();
