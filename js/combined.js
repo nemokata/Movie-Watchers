@@ -1,9 +1,10 @@
-// Hardcoded API key
-const apiKey = "c3c3f653";
+// Hardcoded API keys
+const omdbApiKey = "c3c3f653"; // OMDb API Key
+const youtubeApiKey = "AIzaSyDGFfLTuEF4JI8WE_r-EamorgYoMf6y8wQ"; // Dein YouTube API Key
 
 // Function to initiate screen and set up session
 function startScreen() {
-    sessionStorage.setItem('omdbApiKey', apiKey);
+    sessionStorage.setItem('omdbApiKey', omdbApiKey);
 
     // Check if 'topContainer' already exists before creating it
     let topContainer = document.getElementById("topContainer");
@@ -130,7 +131,7 @@ function displaySuggestions(suggestions) {
     });
 }
 
-// Toggle Movie Details Display in a Modal with Transition
+// Toggle Movie Details Display in a Modal with Embedded YouTube Trailer
 function toggleMovieDetails(movieData) {
     const existingModal = document.getElementById('detailsContainer');
     if (existingModal) {
@@ -146,6 +147,7 @@ function toggleMovieDetails(movieData) {
         <p><strong>Rated:</strong> ${movieData.Rated}</p>
         <p><strong>Released:</strong> ${movieData.Released}</p>
         <p><strong>Plot:</strong> ${movieData.Plot}</p>
+        <div id="trailerContainer">Loading trailer...</div>
         <button onclick="document.getElementById('detailsContainer').remove();">Close</button>
     `;
     document.body.appendChild(detailsContainer);
@@ -154,9 +156,37 @@ function toggleMovieDetails(movieData) {
     setTimeout(() => {
         detailsContainer.classList.add('show');
     }, 10);
+
+    // Fetch and embed the YouTube trailer
+    fetchTrailerOnYouTube(movieData.Title);
+}
+
+// Function to fetch the YouTube video ID and embed the trailer
+function fetchTrailerOnYouTube(title) {
+    const trailerContainer = document.getElementById('trailerContainer');
+    const query = `${title} official trailer`;
+    const youtubeApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&key=${youtubeApiKey}&type=video&maxResults=1`;
+
+    fetch(youtubeApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.items && data.items.length > 0) {
+                const videoId = data.items[0].id.videoId;
+                trailerContainer.innerHTML = `
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/${videoId}" 
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+                `;
+            } else {
+                trailerContainer.innerHTML = "<p>Trailer not found.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching trailer:", error);
+            trailerContainer.innerHTML = "<p>Error loading trailer.</p>";
+        });
 }
 
 document.getElementById('topMoviesButton').addEventListener('click', () => {
     loadTopMovies();
 });
-
