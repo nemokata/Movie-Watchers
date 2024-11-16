@@ -1,6 +1,7 @@
 // Hardcoded API keys
 const omdbApiKey = "c3c3f653"; // OMDb API Key
 const youtubeApiKey = "AIzaSyDGFfLTuEF4JI8WE_r-EamorgYoMf6y8wQ"; // Dein YouTube API Key
+const watchmodeApiKey = "cCM78ZapODoimlJ0EAgtvX6grxffTEtGBj9BgYZT";
 
 // Function to initiate screen and set up session
 function startScreen() {
@@ -148,6 +149,7 @@ function toggleMovieDetails(movieData) {
         <p><strong>Released:</strong> ${movieData.Released}</p>
         <p><strong>Plot:</strong> ${movieData.Plot}</p>
         <div id="trailerContainer">Loading trailer...</div>
+        <div id="streamingLinksContainer">Loading streaming links...</div>
         <button onclick="document.getElementById('detailsContainer').remove();">Close</button>
     `;
     document.body.appendChild(detailsContainer);
@@ -159,8 +161,10 @@ function toggleMovieDetails(movieData) {
 
     // Fetch and embed the YouTube trailer
     fetchTrailerOnYouTube(movieData.Title);
-}
 
+    // Fetch streaming links using Watchmode API
+    fetchWatchmodeLinks(movieData.Title);
+}
 // Function to fetch the YouTube video ID and embed the trailer
 function fetchTrailerOnYouTube(title) {
     const trailerContainer = document.getElementById('trailerContainer');
@@ -184,6 +188,48 @@ function fetchTrailerOnYouTube(title) {
         .catch(error => {
             console.error("Error fetching trailer:", error);
             trailerContainer.innerHTML = "<p>Error loading trailer.</p>";
+        });
+}
+
+function fetchWatchmodeLinks(title) {
+    const streamingLinksContainer = document.getElementById('streamingLinksContainer');
+    const watchmodeApiUrl = `https://api.watchmode.com/v1/search/?apiKey=${watchmodeApiKey}&search_field=name&search_value=${encodeURIComponent(title)}`;
+
+    fetch(watchmodeApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.title_results && data.title_results.length > 0) {
+                const titleId = data.title_results[0].id;
+
+                // Fetch details about where to watch
+                fetch(`https://api.watchmode.com/v1/title/${titleId}/sources/?apiKey=${watchmodeApiKey}`)
+                    .then(response => response.json())
+                    .then(sources => {
+                        if (sources.length > 0) {
+                            streamingLinksContainer.innerHTML = `<h3>Streaming Links:</h3>`;
+                            sources.forEach(source => {
+                                const link = document.createElement('a');
+                                link.href = source.web_url;
+                                link.target = "_blank";
+                                link.textContent = `${source.name} (${source.type})`;
+                                streamingLinksContainer.appendChild(link);
+                                streamingLinksContainer.appendChild(document.createElement('br'));
+                            });
+                        } else {
+                            streamingLinksContainer.innerHTML = "<p>No streaming links found.</p>";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching Watchmode sources:", error);
+                        streamingLinksContainer.innerHTML = "<p>Error loading streaming links.</p>";
+                    });
+            } else {
+                streamingLinksContainer.innerHTML = "<p>No results found on Watchmode.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching Watchmode data:", error);
+            streamingLinksContainer.innerHTML = "<p>Error fetching data from Watchmode.</p>";
         });
 }
 
