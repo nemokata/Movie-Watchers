@@ -236,3 +236,33 @@ function fetchWatchmodeLinks(title) {
 document.getElementById('topMoviesButton').addEventListener('click', () => {
     loadTopMovies();
 });
+function toggleDarkMode() {
+    const body = document.body;
+    const toggleLabel = document.getElementById("toggleLabel");
+
+    // Toggle between light-mode and dark-mode
+    if (body.classList.contains("light-mode")) {
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
+        toggleLabel.textContent = "🌚"; // Start Emoji für Dark Mode
+    } else {
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+        toggleLabel.textContent = "🌞"; // Start Emoji für Light Mode
+    }
+}
+
+// Set the initial mode based on system preferences
+window.onload = () => {
+    const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const body = document.body;
+    const toggleLabel = document.getElementById("toggleLabel");
+
+    if (prefersDarkMode) {
+        body.classList.add("dark-mode");
+        toggleLabel.textContent = "🌞"; // Start als Mond
+    } else {
+        body.classList.add("light-mode");
+        toggleLabel.textContent = "🌚"; // Start als Sonne
+    }
+};

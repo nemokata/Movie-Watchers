@@ -27,10 +27,6 @@ body.light-mode {
     z-index: 1000;
 }
 
-#taskbar .logo img {
-    width: 60px;
-}
-
 #taskbar .nav-links a {
     color: #e0e0e0;
     margin: 0 10px;
@@ -42,9 +38,41 @@ body.light-mode {
     color: #4CAF50;
 }
 
-/* Dark Mode Toggle */
+/* Dark Mode Toggle Styling */
 #darkModeToggle {
-    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#darkModeToggle label {
+    font-size: 1.5em;
+    transition: transform 0.5s ease, color 0.5s ease;
+}
+
+#darkModeToggle input {
+    display: none;
+}
+
+#darkModeToggle label:hover {
+    transform: scale(1.2);
+}
+
+/* Animation for toggle */
+body.light-mode #darkModeToggle label {
+    color: #FFA500; /* Sun color */
+    transform: rotate(360deg);
+    transition: color 0.5s, transform 0.5s ease;
+    content: "🌞";
+}
+
+body.dark-mode #darkModeToggle label {
+    color: #ADD8E6; /* Moon color */
+    transform: rotate(-360deg);
+    transition: color 0.5s, transform 0.5s ease;
+    content: "🌚";
 }
 
 /* Center the top container with search */
@@ -184,59 +212,7 @@ body.light-mode {
     background-color: #45a049;
 }
 
-
 /* Hidden class for sections */
 .hidden {
     display: none;
-}
-
-.contact-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background: rgb(133, 19, 19);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.contact-container h1, .contact-container h2 {
-    color: #333;
-}
-
-.contact-info {
-    margin: 20px 0;
-}
-
-.contact-info p {
-    margin: 5px 0;
-}
-
-/* Form styling */
-.contact-form label {
-    font-weight: bold;
-    display: block;
-    margin: 10px 0 5px;
-}
-
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #722b2b;
-    border-radius: 4px;
-}
-
-.contact-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
-    border: none;
-    color: rgb(0, 0, 0);
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.contact-form button:hover {
-    background-color: #45a049;
 }
