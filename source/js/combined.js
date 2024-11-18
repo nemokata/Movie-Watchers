@@ -191,9 +191,21 @@ function fetchTrailerOnYouTube(title) {
         });
 }
 
+// File path: js/fetchWatchmodeLinks.js
+
+// File path: js/fetchWatchmodeLinks.js
+
 function fetchWatchmodeLinks(title) {
     const streamingLinksContainer = document.getElementById('streamingLinksContainer');
     const watchmodeApiUrl = `https://api.watchmode.com/v1/search/?apiKey=${watchmodeApiKey}&search_field=name&search_value=${encodeURIComponent(title)}`;
+
+    // Local logo mapping
+    const localLogos = {
+        'Netflix': 'image/Netflix.png',
+        'Prime Video': 'image/amazon.png',
+        'Disney+': 'image/Disney.png',
+        'AppleTV+': 'image/appletv.png',
+    };
 
     fetch(watchmodeApiUrl)
         .then(response => response.json())
@@ -206,15 +218,34 @@ function fetchWatchmodeLinks(title) {
                     .then(response => response.json())
                     .then(sources => {
                         if (sources.length > 0) {
-                            streamingLinksContainer.innerHTML = `<h3>Streaming Links:</h3>`;
-                            sources.forEach(source => {
-                                const link = document.createElement('a');
-                                link.href = source.web_url;
-                                link.target = "_blank";
-                                link.textContent = `${source.name} (${source.type})`;
-                                streamingLinksContainer.appendChild(link);
-                                streamingLinksContainer.appendChild(document.createElement('br'));
-                            });
+                            // Filter sources to include only those in localLogos
+                            const filteredSources = sources.filter(source => localLogos.hasOwnProperty(source.name));
+
+                            if (filteredSources.length > 0) {
+                                streamingLinksContainer.innerHTML = `<h3>Streaming Links:</h3>`;
+                                const logoContainer = document.createElement('div');
+                                logoContainer.className = 'logo-container';
+
+                                filteredSources.forEach(source => {
+                                    const logoLink = document.createElement('a');
+                                    logoLink.href = source.web_url;
+                                    logoLink.target = "_blank";
+                                    logoLink.title = source.name;
+
+                                    const logoImg = document.createElement('img');
+                                    // Use the local logo
+                                    logoImg.src = localLogos[source.name];
+                                    logoImg.alt = source.name;
+                                    logoImg.className = 'service-logo';
+
+                                    logoLink.appendChild(logoImg);
+                                    logoContainer.appendChild(logoLink);
+                                });
+
+                                streamingLinksContainer.appendChild(logoContainer);
+                            } else {
+                                streamingLinksContainer.innerHTML = "<p>No supported streaming links found.</p>";
+                            }
                         } else {
                             streamingLinksContainer.innerHTML = "<p>No streaming links found.</p>";
                         }
@@ -232,6 +263,9 @@ function fetchWatchmodeLinks(title) {
             streamingLinksContainer.innerHTML = "<p>Error fetching data from Watchmode.</p>";
         });
 }
+
+
+
 
 document.getElementById('topMoviesButton').addEventListener('click', () => {
     loadTopMovies();
