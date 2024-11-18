@@ -138,7 +138,7 @@ body.light-mode {
     transform: scale(1.05);
 }
 
-/* Modal Styling with Transition */
+/* Modal Styling with Scrollable Content */
 #detailsContainer {
     position: fixed;
     top: 50%;
@@ -150,6 +150,8 @@ body.light-mode {
     border-radius: 10px;
     max-width: 80%;
     width: 500px;
+    max-height: 600px; /* Fixed height */
+    overflow-y: auto; /* Makes the content scrollable */
     z-index: 2000;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
     opacity: 0;
@@ -164,6 +166,7 @@ body.light-mode {
 #detailsContainer img {
     width: 50%;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 #detailsContainer button {
@@ -180,6 +183,7 @@ body.light-mode {
 #detailsContainer button:hover {
     background-color: #45a049;
 }
+
 
 /* Hidden class for sections */
 .hidden {
