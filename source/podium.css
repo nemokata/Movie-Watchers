@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+#taskbar {
+    display: flex;
+    justify-content: center;
+    background-color: #222;
+    padding: 10px 0;
+}
+
+#taskbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+#taskbar a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+.podium-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 30px auto;
+    max-width: 800px;
+    height: 300px;
+    gap: 20px;
+    position: relative;
+}
+
+.podium-place {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.podium-place img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.podium-place-1 {
+    background-color: gold;
+    color: black;
+    height: 300px;
+}
+
+.podium-place-2 {
+    background-color: silver;
+    color: black;
+    height: 250px;
+}
+
+.podium-place-3 {
+    background-color: #cd7f32;
+    color: black;
+    height: 200px;
+}
+
+.series-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.movies-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-item img {
+    border-radius: 5px;
+}
+
+.list-item span {
+    font-weight: bold;
+}

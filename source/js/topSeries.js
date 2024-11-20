@@ -1,21 +1,25 @@
-const apiKey = "d7ce459cfemshf5f63fb82b614b2p1dcb16jsn675ce7ce534d";
+const apiKey = "eb42460cb7msh979dce2f061536ap19bc68jsn947d13a476be";
 
 async function loadTopSeries() {
     const options = {
         method: 'GET',
         headers: {
-            'x-rapidapi-host': 'imdb-top-100-movies.p.rapidapi.com/series',  // Change this if the host for series is different
+            'x-rapidapi-host': 'imdb-top-100-movies.p.rapidapi.com',
             'x-rapidapi-key': apiKey
         }
     };
 
     try {
-        const response = await fetch('https://imdb-top-100-movies.p.rapidapi.com/series', options);  // Replace with series-specific endpoint if available
+        const response = await fetch('https://imdb-top-100-movies.p.rapidapi.com/series', options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
 
         const topSeriesPodium = document.getElementById("topSeriesPodium");
         const topSeriesList = document.getElementById("topSeriesList");
 
+        // Clear existing content
         topSeriesPodium.innerHTML = "";
         topSeriesList.innerHTML = "";
 
@@ -24,23 +28,29 @@ async function loadTopSeries() {
         podiumSeries.forEach((series, index) => {
             const podiumItem = document.createElement("div");
             podiumItem.className = `podium-place podium-place-${index + 1}`;
+            podiumItem.style.height = `${300 - index * 50}px`; // Adjust height dynamically
             podiumItem.innerHTML = `
-                <img src="${series.image}" alt="${series.title}">
-                <p>${index + 1} - ${series.title}</p>
+                <img src="${series.image || 'default-image.png'}" alt="${series.title || 'Unknown Title'}" class="poster">
+                <p class="title">${index + 1}. ${series.title || 'Unknown Title'}</p>
             `;
             topSeriesPodium.appendChild(podiumItem);
         });
 
-        // Display remaining series as a list
-        const listSeries = data.slice(3, 10); // Top 4 to 10
-        listSeries.forEach((series, index) => {
+        // Display remaining series in the list
+        const remainingSeries = data.slice(3);
+        remainingSeries.forEach((series, index) => {
             const listItem = document.createElement("div");
             listItem.className = "list-item";
-            listItem.innerHTML = `<span>#${index + 4}</span> ${series.title}`;
+            listItem.innerHTML = `
+                <span>${index + 4}</span>
+                <img src="${series.image || 'default-image.png'}" alt="${series.title || 'Unknown Title'}" width="50" class="poster">
+                <p>${series.title || 'Unknown Title'}</p>
+            `;
             topSeriesList.appendChild(listItem);
         });
+
     } catch (error) {
-        console.error('Error fetching top series:', error);
+        console.error("Error fetching data:", error);
     }
 }
 
