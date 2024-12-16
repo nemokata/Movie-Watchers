@@ -1,0 +1,200 @@
+/* Allgemeines Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Navigation */
+#taskbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+#taskbar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1rem;
+}
+
+#taskbar a:hover {
+    text-decoration: underline;
+}
+
+/* Dark Mode Toggle Container */
+#darkModeToggleContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#darkModeToggle {
+    background-color: #44444400;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#darkModeToggle:hover {
+    background-color: #666;
+    transform: scale(1.1);
+}
+
+/* Kontaktbereich */
+.contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-left {
+    flex: 1;
+    padding: 20px;
+}
+
+.contact-left h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.contact-left p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-input, .contact-textarea {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-input:focus, .contact-textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+}
+
+.contact-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.contact-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.contact-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode .contact-left h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .contact-left p {
+    color: #cccccc;
+}
+
+body.dark-mode .contact-input, body.dark-mode .contact-textarea {
+    background-color: #222;
+    color: #ffffff;
+    border-color: #444;
+}
+
+body.dark-mode .contact-button {
+    background-color: #1e90ff;
+}
+
+body.dark-mode .contact-button:hover {
+    background-color: #0056b3;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 1000px; /* Maximalbreite für das Formular */
+    margin: 0 auto; /* Zentriert das Formular */
+}
+
+.contact-input, .contact-textarea, .contact-button {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; /* Gleiche Breite für alle Eingabefelder und den Button */
+    box-sizing: border-box; /* Verhindert Breitenprobleme durch Padding */
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-input:focus, .contact-textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+}
+
+.contact-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.contact-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}

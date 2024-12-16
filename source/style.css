@@ -241,3 +241,27 @@ body.dark-mode #darkModeToggle label {
 .hidden {
     display: none;
 }
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.contact-container {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button#darkModeToggle {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
