@@ -1,4 +1,4 @@
-const apiKey = "d7ce459cfemshf5f63fb82b614b2p1dcb16jsn675ce7ce534d";
+const apiKey = "d174d33745msh9de0a276d2c6d03p1c6f0ajsnd4138cd3c99c";
 
 async function loadTopMovies() {
     const options = {
@@ -11,6 +11,9 @@ async function loadTopMovies() {
 
     try {
         const response = await fetch('https://imdb-top-100-movies.p.rapidapi.com/', options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
 
         const topMoviesPodium = document.getElementById("topMoviesPodium");
@@ -21,22 +24,27 @@ async function loadTopMovies() {
 
         // Display top 3 movies on the podium
         const podiumMovies = data.slice(0, 3);
-        podiumMovies.forEach((movie, index) => {
+        podiumMovies.forEach((movies, index) => {
             const podiumItem = document.createElement("div");
             podiumItem.className = `podium-place podium-place-${index + 1}`;
+            podiumItem.style.height = `${300 - index * 50}px`; // Adjust height dynamically
             podiumItem.innerHTML = `
-                <img src="${movie.image}" alt="${movie.title}">
-                <p>${index + 1} - ${movie.title}</p>
+                <img src="${movies.image || 'default-image.png'}" alt="${movies.title || 'Unknown Title'}" class="poster">
+                <p class="title">${index + 1}. ${movies.title || 'Unknown Title'}</p>
             `;
             topMoviesPodium.appendChild(podiumItem);
         });
 
         // Display remaining movies as a list
-        const listMovies = data.slice(3, 10); // Top 4 to 10
-        listMovies.forEach((movie, index) => {
+        const remainingMovies = data.slice(3);
+        remainingMovies.forEach((movies, index) => {
             const listItem = document.createElement("div");
             listItem.className = "list-item";
-            listItem.innerHTML = `<span>#${index + 4}</span> ${movie.title}`;
+            listItem.innerHTML = `
+                <span>${index + 4}</span>
+                <img src="${movies.image || 'default-image.png'}" alt="${movies.title || 'Unknown Title'}" width="50" class="poster">
+                <p>${movies.title || 'Unknown Title'}</p>
+            `;
             topMoviesList.appendChild(listItem);
         });
     } catch (error) {
