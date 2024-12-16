@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contact.css">
 </head>
 <body>
     <div id="taskbar">
@@ -14,20 +14,58 @@
         <a href="Contact.html">Contact</a>
     </div>
 
+    <!-- Dark Mode Toggle -->
+    <div id="darkModeToggleContainer">
+        <button id="darkModeToggle" onclick="toggleDarkMode()">
+            <span id="toggleLabel">🌚</span>
+        </button>
+    </div>
+
     <div class="contact-container">
-        <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
-            <div class="contact-left-title">
-                <h2>Get in touch</h2>
-                <hr>
-            </div>
-            <input type="hidden" name="access_key" value="056e9b2c-ebb1-476b-8156-b4639cefb1e2">
-            <input type="text" name="name" placeholder="Your Name" class="contact-input" required>
-            <input type="email" name="email" placeholder="Your Email" class="contact-input" required>
-            <textarea name="message" placeholder="Your Message" class="contact-input" required></textarea>
-            <button type="submit">Submit <img src="assets/arrow_icon.png" alt=""></button>
-        </form>
-        <div class="contact-right">
-            <img src="assets/right_img.png" alt="">
+        <div class="contact-left">
+            <h2>Get in touch</h2>
+            <p>We’d love to hear from you. Fill out the form below!</p>
+            <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+                <input type="hidden" name="access_key" value="056e9b2c-ebb1-476b-8156-b4639cefb1e2">
+                <input type="text" name="name" placeholder="Your Name" class="contact-input" required>
+                <input type="email" name="email" placeholder="Your Email" class="contact-input" required>
+                <textarea name="message" placeholder="Your Message" class="contact-textarea" required></textarea>
+                <button type="submit" class="contact-button">Submit <img src="assets/arrow_icon.png" alt=""></button>
+            </form>
         </div>
     </div>
-    
+
+    <script>
+        // Toggle Dark Mode Function
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggleLabel = document.getElementById("toggleLabel");
+
+            if (body.classList.contains("light-mode")) {
+                body.classList.remove("light-mode");
+                body.classList.add("dark-mode");
+                toggleLabel.textContent = "🌚";
+            } else {
+                body.classList.remove("dark-mode");
+                body.classList.add("light-mode");
+                toggleLabel.textContent = "🌞";
+            }
+        }
+
+        // Set initial mode based on system preferences
+        window.onload = () => {
+            const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const body = document.body;
+            const toggleLabel = document.getElementById("toggleLabel");
+
+            if (prefersDarkMode) {
+                body.classList.add("dark-mode");
+                toggleLabel.textContent = "🌞";
+            } else {
+                body.classList.add("light-mode");
+                toggleLabel.textContent = "🌚";
+            }
+        };
+    </script>
+</body>
+</html>
