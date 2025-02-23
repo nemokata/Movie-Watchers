@@ -1,4 +1,4 @@
-const apiKey = "d174d33745msh9de0a276d2c6d03p1c6f0ajsnd4138cd3c99c";
+const apiKey = "eb42460cb7msh979dce2f061536ap19bc68jsn947d13a476be";
 
 async function loadTopSeries() {
     const options = {
