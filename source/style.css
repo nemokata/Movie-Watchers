@@ -307,7 +307,6 @@ footer {
 /* Hidden class for sections */
 .hidden {
     display: none;
-<<<<<<< Updated upstream
 }
 
 body.light-mode {
@@ -333,6 +332,3 @@ button#darkModeToggle {
     font-size: 1.5rem;
     cursor: pointer;
 }
-=======
-}
->>>>>>> Stashed changes

@@ -168,6 +168,7 @@ function toggleMovieDetails(movieData) {
 // Function to fetch the YouTube video ID and embed the trailer
 function fetchTrailerOnYouTube(title) {
     const trailerContainer = document.getElementById('trailerContainer');
+    showLoadingSpinner(trailerContainer);
     const query = `${title} official trailer`;
     const youtubeApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&key=${youtubeApiKey}&type=video&maxResults=1`;
 
@@ -300,3 +301,10 @@ window.onload = () => {
         toggleLabel.textContent = "🌚"; // Start als Sonne
     }
 };
+
+function showLoadingSpinner(container) {
+    const spinner = document.createElement('div');
+    spinner.className = 'loading-spinner';
+    container.innerHTML = '';
+    container.appendChild(spinner);
+}
